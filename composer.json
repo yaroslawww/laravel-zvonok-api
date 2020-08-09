@@ -1,0 +1,62 @@
+{
+    "name": "yaroslawww/laravel-zvonok-api",
+    "description": "Laravel api client for zvonok.com service",
+    "keywords": [
+        "zvonok.com",
+        "zvonok",
+        "api-client",
+        "laravel-zvonok-api"
+    ],
+    "homepage": "https://github.com/yaroslawww/laravel-zvonok-api",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Yaroslav Georgitsa",
+            "email": "yaroslav.georgitsa@gmail.com",
+            "homepage": "https://yaroslawww.github.io",
+            "role": "Developer"
+        }
+    ],
+    "require": {
+        "php": "^7.4",
+        "guzzlehttp/guzzle": "~6.0"
+    },
+    "require-dev": {
+        "friendsofphp/php-cs-fixer": "^2.16",
+        "orchestra/testbench": "^5.0",
+        "phpunit/phpunit": "^9.0",
+        "psalm/plugin-laravel": "^1.2",
+        "vimeo/psalm": "^3.11"
+    },
+    "autoload": {
+        "psr-4": {
+            "GCSC\\LaravelZvonokApi\\": "src"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "GCSC\\LaravelZvonokApi\\Tests\\": "tests"
+        }
+    },
+    "scripts": {
+        "psalm": "vendor/bin/psalm",
+        "test": "vendor/bin/phpunit",
+        "test-coverage": "vendor/bin/phpunit --coverage-html coverage",
+        "format": "vendor/bin/php-cs-fixer fix --allow-risky=yes"
+    },
+    "config": {
+        "sort-packages": true
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "GCSC\\LaravelZvonokApi\\LaravelZvonokApiServiceProvider"
+            ],
+            "aliases": {
+                "ZvonokApi": "GCSC\\LaravelZvonokApi\\Facades\\ZvonokApi"
+            }
+        }
+    },
+    "minimum-stability": "dev",
+    "prefer-stable": true
+}
