@@ -32,7 +32,7 @@ class LaravelZvonokApiClient
     {
         if (strtolower($method) == 'post') {
             $key = 'multipart';
-            if (!isset($options[$key])) {
+            if (! isset($options[$key])) {
                 $options[$key] = [];
             }
             $options[$key] = array_merge($options[$key], [
@@ -41,14 +41,14 @@ class LaravelZvonokApiClient
                     'contents' => config('laravel-zvonok-api.api_key'),
                 ],
             ]);
-
         } else {
             $key = 'query';
-            if (!isset($options[$key])) {
+            if (! isset($options[$key])) {
                 $options[$key] = [];
             }
             $options[$key] = array_merge($options[$key], ['public_key' => config('laravel-zvonok-api.api_key')]);
         }
+
         return $this->client->request($method, $path, $options);
     }
 
@@ -59,5 +59,4 @@ class LaravelZvonokApiClient
 
         return json_decode($body);
     }
-
 }

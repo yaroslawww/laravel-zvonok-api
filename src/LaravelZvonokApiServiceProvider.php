@@ -12,10 +12,7 @@ class LaravelZvonokApiServiceProvider extends ServiceProvider
             $this->publishes([
                 __DIR__.'/../config/laravel-zvonok-api.php' => config_path('laravel-zvonok-api.php'),
             ], 'config');
-
-
         }
-
     }
 
     public function register()
