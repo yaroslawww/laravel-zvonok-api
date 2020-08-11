@@ -9,6 +9,8 @@ class LaravelZvonokApiClient
 {
     protected $client;
 
+    protected ApiRequester $apiRequester;
+
     public function __construct(array $configs = [])
     {
         $this->client = new GuzzleClient(array_merge(
@@ -18,6 +20,8 @@ class LaravelZvonokApiClient
             ],
             $configs
         ));
+
+        $this->apiRequester = new ApiRequester($this);
     }
 
     /**
@@ -31,16 +35,23 @@ class LaravelZvonokApiClient
     public function request(string $method, string $path = '', array $options = []): ResponseInterface
     {
         if (strtolower($method) == 'post') {
-            $key = 'multipart';
-            if (! isset($options[$key])) {
-                $options[$key] = [];
+            $key = 'form_params';
+            if (isset($options[$key])) {
+                $options[$key] = array_merge($options[$key], [
+                    'public_key' => config('laravel-zvonok-api.api_key'),
+                ]);
+            } else {
+                $key = 'multipart';
+                if (! isset($options[$key])) {
+                    $options[$key] = [];
+                }
+                $options[$key] = array_merge($options[$key], [
+                    [
+                        'name' => 'public_key',
+                        'contents' => config('laravel-zvonok-api.api_key'),
+                    ],
+                ]);
             }
-            $options[$key] = array_merge($options[$key], [
-                [
-                    'name' => 'public_key',
-                    'contents' => config('laravel-zvonok-api.api_key'),
-                ],
-            ]);
         } else {
             $key = 'query';
             if (! isset($options[$key])) {
@@ -57,6 +68,11 @@ class LaravelZvonokApiClient
         $response = $this->request($method, $path, $options);
         $body = $response->getBody()->__toString();
 
-        return json_decode($body);
+        return json_decode($body, true);
+    }
+
+    public function api(): ApiRequester
+    {
+        return $this->apiRequester;
     }
 }
